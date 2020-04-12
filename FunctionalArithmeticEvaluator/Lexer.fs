@@ -4,9 +4,10 @@ type TokenType =
     | Operation = 0
     | Float     = 1
     
-type Token(token:TokenType, value:string) =
-    member __.Type = token
-    member __.Value = value
+type Token = {
+    Type: TokenType
+    Value: string
+}
 
 [<Literal>]
 let Operations = "+-*/%"
@@ -31,11 +32,11 @@ let rec tokenize (input:string) =
     | _ ->
         match input.[0] with
         | c when isOperation c ->
-            let token = Token(TokenType.Operation, input.[0].ToString())
+            let token = { Type = TokenType.Float; Value = input.[0].ToString() }
             token :: (tokenize (input.Substring(1)))
         | c when isNumber c ->
             let floatLenght = getfloatLenght input 0
-            let token = Token(TokenType.Operation, (input.Substring(0, floatLenght)))
+            let token = { Type = TokenType.Operation; Value = input.Substring(0, floatLenght) }
             token :: (tokenize (input.Substring(floatLenght)))
         | _ -> tokenize (input.Substring(1))
 
@@ -46,11 +47,11 @@ let tailTokenize input : Token list =
         | _ ->
             match input.[0] with
             | c when isOperation c ->
-                let token = Token(TokenType.Operation, input.[0].ToString())
+                let token = { Type = TokenType.Float; Value = input.[0].ToString() }
                 tokenizeRec (input.Substring(1)) (token :: tokens)
             | c when isNumber c ->
                 let floatLenght = getfloatLenght input 0
-                let token = Token(TokenType.Operation, (input.Substring(0, floatLenght)))
+                let token = { Type = TokenType.Operation; Value = input.Substring(0, floatLenght) }
                 tokenizeRec (input.Substring(floatLenght)) (token :: tokens)
             | _ -> tokenizeRec (input.Substring(1)) tokens
     tokenizeRec input []
@@ -60,14 +61,14 @@ let tailTokenizeChar (input: string) =
         let flushFloat = 
             match floatChars with
             | [] -> visited           
-            | _ -> 
-                let floatToken = Token(TokenType.Float, System.String(floatChars |> List.rev |> Array.ofList))  
+            | _ ->
+                let floatToken = { Type = TokenType.Float; Value = System.String(floatChars |> List.rev |> Array.ofList) }
                 floatToken :: visited
         match input with
         | head :: tail -> 
             match head with
-            | c when isOperation c ->
-                let operationToken = Token(TokenType.Operation, head.ToString())
+            | c when isOperation c ->            
+                let operationToken = { Type = TokenType.Float; Value = head.ToString() }
                 tokenizeRec tail (operationToken :: flushFloat) []
             | c when isNumber c -> 
                 tokenizeRec tail visited (c :: floatChars)
