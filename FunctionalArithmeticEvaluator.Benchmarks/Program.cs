@@ -7,19 +7,28 @@ namespace FunctionalArithmeticEvaluator.Benchmarks
 {
     public class Lexers
     {
-        private const string _input = "30 - 10 * 5 - 20 / 4 % 2";
+        [Params(
+            "",
+            "30 - 10",
+            "30 - 10 * 5 - 20 / 4 % 2",
+            "30 - 10 * 5 - 20 / 4 % 2 - 4 * 10 + 7 * 40",
+            "30 - 10 * 5 - 20 / 4 % 2 - 4 * 10 + 7 * 40 / 4.55 + 2",
+            "30 - 10 * 5 - 20 / 4 % 2 - 4 * 10 + 7 * 40 / 4.55 + 2 + 30 - 10 * 5 - 20 / 4 % 2 - 4 * 10 + 7 * 40 / 4.55 + 2 + 30 - 10 * 5 - 20 / 4 % 2 - 4 * 10 + 7 * 40 / 4.55 + 2 + 30 - 10 * 5 - 20 / 4 % 2 - 4 * 10 + 7 * 40 / 4.55 + 2"
+            )]
+        public string Input { get; set; }
+
 
         [Benchmark]
-        public FSharpList<CSharpLexer.Token> CSharp() => CSharpLexer.Tokenize(_input);
+        public FSharpList<CSharpLexer.Token> CSharp() => CSharpLexer.Tokenize(Input);
 
         [Benchmark]
-        public FSharpList<FSharpLexer.Token> FSharp() => FSharpLexer.tokenize(_input);
+        public FSharpList<FSharpLexer.Token> FSharp() => FSharpLexer.tokenize(Input);
 
         [Benchmark]
-        public FSharpList<FSharpLexer.Token> FSharpTailRec() => FSharpLexer.tailTokenize(_input);
+        public FSharpList<FSharpLexer.Token> FSharpTailRec() => FSharpLexer.tailTokenize(Input);
 
         [Benchmark]
-        public FSharpList<FSharpLexer.Token> FSharpTailRecChars() => FSharpLexer.tailTokenizeChar(_input);
+        public FSharpList<FSharpLexer.Token> FSharpTailRecChars() => FSharpLexer.tailTokenizeChar(Input);
     }
 
 

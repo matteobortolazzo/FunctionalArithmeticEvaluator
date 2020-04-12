@@ -39,20 +39,20 @@ let rec tokenize (input:string) =
             token :: (tokenize (input.Substring(floatLenght)))
         | _ -> tokenize (input.Substring(1))
 
-let tailTokenize input =
-    let rec tokenizeRec input tokens =
-        match input with
-        | "" -> List.rev tokens
+let tailTokenize input : Token list =
+    let rec tokenizeRec (input:string) tokens =
+        match input.Length with
+        | 0 -> []
         | _ ->
             match input.[0] with
             | c when isOperation c ->
                 let token = Token(TokenType.Operation, input.[0].ToString())
-                tokenizeRec input.[1..] (token :: tokens)
+                tokenizeRec (input.Substring(1)) (token :: tokens)
             | c when isNumber c ->
                 let floatLenght = getfloatLenght input 0
-                let token = Token(TokenType.Operation, input.[0..(floatLenght - 1)])
-                tokenizeRec input.[floatLenght..]  (token :: tokens)
-            | _ -> tokenizeRec input.[1..] tokens
+                let token = Token(TokenType.Operation, (input.Substring(0, floatLenght)))
+                tokenizeRec (input.Substring(floatLenght)) (token :: tokens)
+            | _ -> tokenizeRec (input.Substring(1)) tokens
     tokenizeRec input []
 
 let tailTokenizeChar (input: string) =
