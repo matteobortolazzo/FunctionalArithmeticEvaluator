@@ -17,17 +17,17 @@ let private isOperation (c: char) = Operations.Contains(c)
 
 let private isNumber (c: char) = Numbers.Contains(c)
 
-let rec private getfloatLenght input lenght =
-    match input with
-    | "" -> lenght
+let rec private getfloatLenght (input:string) lenght =
+    match input.Length with
+    | 0 -> lenght
     | _ ->
         match input.[0] with
         | c when isNumber c -> getfloatLenght (input.Substring(1)) (lenght + 1)
         | _ -> lenght
 
-let rec tokenize input =
-    match input with
-    | "" -> []
+let rec tokenize (input:string) =
+    match input.Length with
+    | 0 -> []
     | _ ->
         match input.[0] with
         | c when isOperation c ->
