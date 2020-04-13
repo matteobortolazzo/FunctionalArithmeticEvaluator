@@ -80,7 +80,7 @@ To test this concept I wrote 4 versions of the Lexer:
 * **F#TailRecChar** uses tail recursion but it works on a list of character instead of substrings. And it looks like this version is great for very long expressions.
 
 However, tail recursion can be a nightmare, at the beginning.
-Look at the interpreter, the easier thing to implement recursively:
+Look at the interpreter, the easiest component to implement recursively:
 
 ```fsharp
 let rec evaluate node =
