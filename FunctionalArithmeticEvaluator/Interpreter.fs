@@ -3,6 +3,19 @@
 open FSharpParser
 
 let rec evaluate node =
+    match node with
+    | ValueNode(v) -> v
+    | OperationNode(b) ->
+        let left = evaluate b.Left
+        let right = evaluate b.Right
+        match b.Type with
+        | NodeType.Sum      -> left + right
+        | NodeType.Subtract -> left - right
+        | NodeType.Multiply -> left * right
+        | NodeType.Divide   -> left / right
+        | _                 -> left % right
+
+let evaluateTail node =
     let rec evaluateRec node op =
         match node with
         | ValueNode(v) -> op v
