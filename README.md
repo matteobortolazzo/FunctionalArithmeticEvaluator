@@ -45,7 +45,7 @@ Here it represents the execution order.
 
 For example `5 - 2 * 4 + 6 / 3` is represented by the following tree:
 
-![AST](Resources/AST.jpg)
+![AST](Resources/ast.jpg)
 
 ## Interpreter
 
