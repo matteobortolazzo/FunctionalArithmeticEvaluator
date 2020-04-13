@@ -97,7 +97,7 @@ let rec evaluate node =
         | _                 -> left % right
 ```
 
-With tail recursion it magically become the most difficult piece of code:
+With tail recursion it magically becomes the most difficult piece of code:
 ```fsharp
 let evaluateTail node =
     let rec evaluateRec node op =
