@@ -10,9 +10,9 @@ type NodeType =
     | Module   = 5
 
 type Node =
-    | BinaryNode of BinaryNode
+    | OperationNode of OperationNode
     | ValueNode of float
-and BinaryNode = { Type: NodeType; Right: Node; Left: Node;  }
+and OperationNode = { Type: NodeType; Right: Node; Left: Node;  }
 
 let private getNodeType value =
     match value with
@@ -41,7 +41,7 @@ let parse tokens =
                     let nodeType = getNodeType head.Value
                     parseRec tail precedence [] (fun left ->
                         parseRec visited precedence [] (fun right ->
-                            op(BinaryNode({ Type = nodeType; Right = right; Left = left }))))
+                            op(OperationNode({ Type = nodeType; Right = right; Left = left }))))
         | _ -> 
             match visited with    
             | head :: [] -> op (head.Value |> float |> ValueNode)        

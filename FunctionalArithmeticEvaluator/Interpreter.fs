@@ -6,7 +6,7 @@ let rec evaluate node =
     let rec evaluateRec node op =
         match node with
         | ValueNode(v) -> op v
-        | BinaryNode(b) ->
+        | OperationNode(b) ->
             match b.Type with
             | NodeType.Sum      -> evaluateRec b.Left (fun left -> evaluateRec b.Right (fun right -> op(left + right) ))
             | NodeType.Subtract -> evaluateRec b.Left (fun left -> evaluateRec b.Right (fun right -> op(left - right) ))
